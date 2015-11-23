@@ -3,7 +3,8 @@ CXXFLAGS+=-g -Wall
 CXXFLAGS+=-O2 
 
 HEADERS=$(wildcard *.h)
-TESTS= countdownlatch_test
+TESTS= countdownlatch_test \
+	   arena_test
 
 all: $(TESTS)
 
@@ -14,6 +15,8 @@ $(TESTS):
 
 countdownlatch_test: test/countdownlatch_test.cc port/port_posix.cc
 countdownlatch_test: LDFLAGS += -std=c++0x
+
+arena_test: test/arena_test.cc util/arena.cc util/testharness.cc 
 
 .PHONY: clean
 clean:
