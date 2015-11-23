@@ -2,6 +2,7 @@
 #define MIRANTS_INCLUDE_MIRANTS_ENV_H
 
 #include <stdarg.h>
+#include "include/mirants/status.h"
 
 namespace mirants {
 class WritableFile {

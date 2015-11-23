@@ -27,7 +27,7 @@ class Slice {
   Slice() : data_(""), size_(0) { }
 
   // Create a slice that refers to d[0, n -1].
-  Slice(const data* d, size_t n) : data_(d), size_(n) { }
+  Slice(const char* d, size_t n) : data_(d), size_(n) { }
 
   // Create a slice that refers to s[0, strlen(s) - 1].
   Slice(const char* s) : data_(s), size_(strlen(s)) { }
