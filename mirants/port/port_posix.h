@@ -1,5 +1,5 @@
-#ifndef MIRANTS_PORT_PORT_POSIX_H
-#define MIRANTS_PORT_PORT_POSIX_H
+#ifndef MIRANTS_PORT_PORT_POSIX_H_
+#define MIRANTS_PORT_PORT_POSIX_H_
 
 #include <pthread.h>
 
@@ -47,4 +47,4 @@ extern void InitOnce(OnceType* once, void (*initializer)());
 } // namespace port
 } // namespace mirants
 
-#endif  // MIRANTS_PORT_PORT_POSIX_H
+#endif  // MIRANTS_PORT_PORT_POSIX_H_

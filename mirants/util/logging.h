@@ -1,5 +1,5 @@
-#ifndef MIRANTS_UTIL_LOGGING_H
-#define MIRANTS_UTIL_LOGGING_H
+#ifndef MIRANTS_UTIL_LOGGING_H_
+#define MIRANTS_UTIL_LOGGING_H_
 
 #include <string>
 #include <stdint.h>
@@ -29,4 +29,4 @@ extern bool ConsumeDecimalNumber(Slice* in, uint64_t* val);
 
 }  // namespace mirants
 
-#endif  // MIRANTS_UTIL_LOGGING_H
+#endif  // MIRANTS_UTIL_LOGGING_H_

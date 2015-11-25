@@ -6,8 +6,8 @@
 // non-const method, all threads accessing the same Status must use 
 // external synchronization.
 
-#ifndef MIRANTS_INCLUDE_MIRANTS_H
-#define MIRANTS_INCLUDE_MIRANTS_H
+#ifndef MIRANTS_INCLUDE_MIRANTS_H_
+#define MIRANTS_INCLUDE_MIRANTS_H_
 
 #include <string>
 #include "include/mirants/slice.h"
@@ -100,4 +100,4 @@ inline void Status::operator=(const Status& s) {
 
 }  // namespace mirants 
 
-#endif  // MIRANTS_INCLUDE_MIRANTS_H
+#endif  // MIRANTS_INCLUDE_MIRANTS_H_

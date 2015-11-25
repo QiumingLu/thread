@@ -1,8 +1,8 @@
 // Logger implementation that can be shared by all enviroments 
 // where enough posix functionality is available.
 
-#ifndef MIRANTS_UTIL_POSIX_LOGGER_H
-#define MIRANTS_UTIL_POSIX_LOGGER_H
+#ifndef MIRANTS_UTIL_POSIX_LOGGER_H_
+#define MIRANTS_UTIL_POSIX_LOGGER_H_
 
 #include <stdio.h>
 #include <sys/time.h>
@@ -96,4 +96,4 @@ void PosixLogger::Logv(const char* format, va_list ap) {
 
 }  // namespace mirants
 
-#endif  // MIRANTS_UTIL_POSIX_LOGGER_H
+#endif  // MIRANTS_UTIL_POSIX_LOGGER_H_

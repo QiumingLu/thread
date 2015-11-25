@@ -1,5 +1,5 @@
-#ifndef MIRANTS_UTIL_MUTEXLOCK_H
-#define MIRANTS_UTIL_MUTEXLOCK_H
+#ifndef MIRANTS_UTIL_MUTEXLOCK_H_
+#define MIRANTS_UTIL_MUTEXLOCK_H_
 
 #include "port/port_posix.h"
 #include "port/thread_annotations.h"
@@ -33,4 +33,4 @@ class SCOPED_LOCKABLE MutexLock {
 
 }  // namespace mirants
 
-#endif  //  MIRANTS_UTIL_MUTEXLOCK_H
+#endif  //  MIRANTS_UTIL_MUTEXLOCK_H_

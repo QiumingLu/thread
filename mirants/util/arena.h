@@ -1,5 +1,5 @@
-#ifndef MIRANTS_UTIL_ARENA_H
-#define MIRANTS_UTIL_ARENA_H
+#ifndef MIRANTS_UTIL_ARENA_H_
+#define MIRANTS_UTIL_ARENA_H_
 
 #include <vector>
 #include <assert.h>
@@ -61,4 +61,4 @@ inline char* Arena::Allocate(size_t bytes) {
 
 }  // namespace mirants
 
-#endif  // MIRANTS_UTIL_ARENA_H
+#endif  // MIRANTS_UTIL_ARENA_H_

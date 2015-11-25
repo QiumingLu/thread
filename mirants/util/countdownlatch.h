@@ -1,5 +1,5 @@
-#ifndef MIRANTS_UTIL_COUNTDOWNLATCH_H
-#define MIRANTS_UTIL_COUNTDOWNLATCH_H
+#ifndef MIRANTS_UTIL_COUNTDOWNLATCH_H_
+#define MIRANTS_UTIL_COUNTDOWNLATCH_H_
 
 #include "port/port_posix.h"
 #include "util/mutexlock.h"
@@ -42,4 +42,4 @@ class CountDownLatch {
 
 } // namespace mirants
 
-#endif  // MIRANTS_UTIL_COUNTDOWNLATCH_H
+#endif  // MIRANTS_UTIL_COUNTDOWNLATCH_H_

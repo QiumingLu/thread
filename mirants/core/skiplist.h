@@ -1,5 +1,5 @@
-#ifndef MIRANTS_CORE_SKIPLIST_H
-#define MIRANTS_CORE_SKIPLIST_H
+#ifndef MIRANTS_CORE_SKIPLIST_H_
+#define MIRANTS_CORE_SKIPLIST_H_
 
 // Thread safety
 // -------------
@@ -386,4 +386,4 @@ bool SkipList<Key, Comparator>::Contains(const Key& key) const {
 
 }  // namespace mirants
 
-#endif  // MIRANTS_CORE_SKIPLIST_H
+#endif  // MIRANTS_CORE_SKIPLIST_H_

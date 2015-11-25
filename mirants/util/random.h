@@ -1,5 +1,5 @@
-#ifndef MIRANTS_UTIL_RANDOM_H
-#define MIRANTS_UTIL_RANDOM_H
+#ifndef MIRANTS_UTIL_RANDOM_H_
+#define MIRANTS_UTIL_RANDOM_H_
 
 #include <stdint.h>
 
@@ -60,4 +60,4 @@ class Random {
 
 }  // namespace mirants
 
-#endif  // MIRANTS_UTIL_RANDOM_H
+#endif  // MIRANTS_UTIL_RANDOM_H_

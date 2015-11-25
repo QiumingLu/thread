@@ -1,5 +1,5 @@
-#ifndef MIRANTS_INCLUDE_MIRANTS_ENV_H
-#define MIRANTS_INCLUDE_MIRANTS_ENV_H
+#ifndef MIRANTS_INCLUDE_MIRANTS_ENV_H_
+#define MIRANTS_INCLUDE_MIRANTS_ENV_H_
 
 #include <stdarg.h>
 #include "include/mirants/status.h"
@@ -49,4 +49,4 @@ class FileLock {
 
 }  // namespace mirants
 
-#endif  // MIRANTS_INCLUDE_MIRANTS_ENV_H
+#endif  // MIRANTS_INCLUDE_MIRANTS_ENV_H_

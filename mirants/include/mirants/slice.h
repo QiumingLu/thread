@@ -11,8 +11,8 @@
 // 为操作数据的方便，将数据和长度包装成 Slice 使用，直接操控指针避免
 // 不必要的数据拷贝。
 
-#ifndef MIRANTS_INCLUDE_SLICE_H
-#define MIRANTS_INCLUDE_SLICE_H
+#ifndef MIRANTS_INCLUDE_SLICE_H_
+#define MIRANTS_INCLUDE_SLICE_H_
 
 #include <string>
 #include <assert.h>
@@ -101,4 +101,4 @@ inline int Slice::compare(const Slice& b) const {
 
 } // namespace mirants
 
-#endif  // MIRANTS_INCLUDE_SLICE_H
+#endif  // MIRANTS_INCLUDE_SLICE_H_

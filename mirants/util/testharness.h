@@ -6,8 +6,8 @@
 // __STDC__：当要求程序严格遵循ANSI C标准时该标识被赋值为1；
 // __cplusplus：当编写C++程序时该标识符被定义。
 
-#ifndef MIRANTS_UTIL_TESTHARNESS_H
-#define MIRANTS_UTIL_TESTHARNESS_H
+#ifndef MIRANTS_UTIL_TESTHARNESS_H_
+#define MIRANTS_UTIL_TESTHARNESS_H_
 
 #include <sstream>
 #include <stdio.h>
@@ -136,4 +136,4 @@ extern bool RegisterTest(const char* base, const char* name, void (*func)());
 }  // namespace test
 }  // namespace mirants
 
-#endif  // MIRANTS_UTIL_TESTHARNESS_H
+#endif  // MIRANTS_UTIL_TESTHARNESS_H_

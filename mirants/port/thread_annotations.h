@@ -1,5 +1,5 @@
-#ifndef MIRANTS_PORT_THREAD_ANNOTATIONS_H
-#define MIRANTS_PORT_THREAD_ANNOTATIONS_H
+#ifndef MIRANTS_PORT_THREAD_ANNOTATIONS_H_
+#define MIRANTS_PORT_THREAD_ANNOTATIONS_H_
 
 // Some environments provide custom macros to aid in static thread-safety
 // analysis. Provide empty definitions of such macros unless they are already
@@ -45,4 +45,4 @@
 #define NO_THREAD_SAFETY_ANALYSIS
 #endif 
 
-#endif  // MIRANTS_PORT_THREAD_ANNOTATIONS_H
+#endif  // MIRANTS_PORT_THREAD_ANNOTATIONS_H_
