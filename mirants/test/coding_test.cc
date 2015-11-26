@@ -1,5 +1,6 @@
 #include "util/coding.h"
 
+#include <vector>
 #include "util/testharness.h"
 
 namespace mirants {
@@ -68,6 +69,62 @@ TEST(Coding, EncodingOutput) {
   ASSERT_EQ(0x06, static_cast<int>(dst[5]));
   ASSERT_EQ(0x07, static_cast<int>(dst[6]));
   ASSERT_EQ(0x08, static_cast<int>(dst[7])); 
+}
+
+TEST(Coding, Varint32) {
+  std::string s;
+  for (uint32_t i = 0; i < (32 * 32); ++i) {
+    uint32_t v = (i / 32) << (i % 32);
+    PutVarint32(&s, v);
+  }
+
+  const char* p = s.data();
+  const char* limit = p + s.size();
+  for (uint32_t i = 0; i < (32 * 32); ++i) {
+    uint32_t expected = (i / 32) << (i % 32);
+    uint32_t actual;
+    const char* start = p;
+    p = GetVarint32Ptr(p, limit, &actual);
+    ASSERT_TRUE(p != NULL);
+    ASSERT_EQ(expected, actual);
+    ASSERT_EQ(VarintLength(actual), p - start);
+  }
+  ASSERT_EQ(p, s.data() + s.size());
+}
+
+TEST(Coding, Varint64) {
+  // Construct the list of values to check
+  std::vector<uint64_t> values;
+  // Some special values
+  values.push_back(0);
+  values.push_back(100);
+  values.push_back(~static_cast<uint64_t>(0));
+  values.push_back(~static_cast<uint64_t>(0) - 1);
+  for (uint32_t k = 0; k < 64; ++k) {
+    // Test values near powers of two
+    const uint64_t power = 1ull << k;
+    values.push_back(power);
+    values.push_back(power - 1);
+    values.push_back(power + 1);
+  }
+
+  std::string s;
+  for (size_t i = 0; i < values.size(); ++i) {
+    PutVarint64(&s, values[i]);
+  }
+
+  const char* p = s.data();
+  const char* limit = p + s.size();
+  for (size_t i = 0; i < values.size(); ++i) {
+    ASSERT_TRUE(p < limit);
+    uint64_t actual;
+    const char* start = p;
+    p = GetVarint64Ptr(p, limit, &actual);
+    ASSERT_TRUE(p != NULL);
+    ASSERT_EQ(values[i], actual);
+    ASSERT_EQ(VarintLength(actual), p - start);
+  }
+  ASSERT_EQ(p, limit);
 }
 
 }  // namespace mirants
