@@ -1,3 +1,8 @@
+// Endian-neutral encoding:
+// * Fixed-length numbers are encoded with least-significant byte first
+// * In addition we support variable length "varint" encoding
+// * Strings are encoded prefixed by their length in varint format
+
 #ifndef MIRANTS_UTIL_CODING_H_
 #define MIRANTS_UTIL_CODING_H_
 
