@@ -114,7 +114,7 @@ void PutLengthPrefixedSlice(std::string* dst, const Slice& value) {
 int VarintLength(uint64_t v) {
   int len = 1;
   while ( v >= 128) {
-    v >> 7;
+    v >>= 7;
     ++len;
   }
   return len;
