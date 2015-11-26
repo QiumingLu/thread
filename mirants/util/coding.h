@@ -67,10 +67,10 @@ inline uint32_t DecodeFixed32(const char* ptr) {
 
 inline uint64_t DecodeFixed64(const char* ptr) {
   if (port::kLittleEndian) {
-   // Load the raw bytes
-   uint64_t result;
-   memcpy(&result, ptr, sizeof(result));  // gcc optimizes this to a plain  load
-   return result; 
+    // Load the raw bytes
+    uint64_t result;
+    memcpy(&result, ptr, sizeof(result));  // gcc optimizes this to a plain  load
+    return result; 
   } else {
     uint64_t lo = DecodeFixed32(ptr);
     uint64_t hi = DecodeFixed32(ptr + 4);
