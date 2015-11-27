@@ -5,9 +5,9 @@ CXXFLAGS+=-O2
 HEADERS=$(wildcard *.h)
 TESTS= countdownlatch_test \
 	   arena_test          \
-	   skiplist_test       \
 	   coding_test         \
 	   hash_test           \
+	   cache_test          \
 
 all: $(TESTS)
 
@@ -27,6 +27,8 @@ coding_test: test/coding_test.cc util/testharness.cc util/coding.cc
 
 hash_test: test/hash_test.cc util/testharness.cc util/hash.cc util/coding.cc
 
+cache_test: test/cache_test.cc util/testharness.cc util/cache.cc util/hash.cc \
+            util/coding.cc port/port_posix.cc
 .PHONY: clean
 clean:
 	rm -f $(TESTS)

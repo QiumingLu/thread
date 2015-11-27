@@ -127,6 +127,65 @@ TEST(Coding, Varint64) {
   ASSERT_EQ(p, limit);
 }
 
+TEST(Coding, Varint32Overflow) {
+  uint32_t result;
+  std::string input("\x81\x82\x83\x84\x85\x11");
+  ASSERT_TRUE(GetVarint32Ptr(input.data(), 
+              input.data() + input.size(), &result) == NULL);
+}
+
+TEST(Coding, Varint32Truncation) {
+  uint32_t large_value = (1u << 31) + 100;
+  std::string s;
+  PutVarint32(&s, large_value);
+  uint32_t result;
+  for (size_t len = 0; len < s.size() - 1; ++len) {
+    ASSERT_TRUE(GetVarint32Ptr(s.data(), s.data() + len, &result) == NULL);
+  }
+  ASSERT_TRUE(GetVarint32Ptr(s.data(), s.data() + s.size(), &result) 
+              != NULL);
+  ASSERT_EQ(large_value, result);
+}
+
+TEST(Coding, Varint64Overflow) {
+  uint64_t result;
+  std::string input("\x81\x82\x83\x84\x85\x81\x82\x83\x84\x85\x11");
+  ASSERT_TRUE(GetVarint64Ptr(input.data(), input.data() + input.size(), &result)
+              == NULL);
+}
+
+TEST(Coding, Varint64Truncation) {
+  uint64_t large_value = (1ull << 63) + 100ull;
+  std::string s;
+  PutVarint64(&s, large_value);
+  uint64_t result;
+  for (size_t len = 0; len < s.size() - 1; ++len) {
+    ASSERT_TRUE(GetVarint64Ptr(s.data(), s.data() + len, &result) == NULL);
+  }
+  ASSERT_TRUE(GetVarint64Ptr(s.data(), s.data() + s.size(), &result) != NULL);
+  ASSERT_EQ(large_value, result);
+}
+
+TEST(Coding, Strings) {
+  std::string s;
+  PutLengthPrefixedSlice(&s, Slice(""));
+  PutLengthPrefixedSlice(&s, Slice("foo"));
+  PutLengthPrefixedSlice(&s, Slice("bar"));
+  PutLengthPrefixedSlice(&s, Slice(std::string(200, 'x')));
+
+  Slice input(s);
+  Slice v;
+  ASSERT_TRUE(GetLengthPrefixedSlice(&input, &v));
+  ASSERT_EQ("", v.ToString());
+  ASSERT_TRUE(GetLengthPrefixedSlice(&input, &v));
+  ASSERT_EQ("foo", v.ToString());
+  ASSERT_TRUE(GetLengthPrefixedSlice(&input, &v));
+  ASSERT_EQ("bar", v.ToString());
+  ASSERT_TRUE(GetLengthPrefixedSlice(&input, &v));
+  ASSERT_EQ(std::string(200, 'x'), v.ToString());
+  ASSERT_EQ("", input.ToString());
+}
+
 }  // namespace mirants
 
 int main(int argc, char** argv) {
