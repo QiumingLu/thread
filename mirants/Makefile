@@ -9,6 +9,7 @@ TESTS= countdownlatch_test \
 	   hash_test           \
 	   cache_test          \
 	   atomic_test         \
+	   thread_test         \
 
 all: $(TESTS)
 
@@ -32,6 +33,9 @@ cache_test: test/cache_test.cc util/testharness.cc util/cache.cc util/hash.cc \
             util/coding.cc port/port_posix.cc
 
 atomic_test: test/atomic_test.cc util/testharness.cc
+
+thread_test: test/thread_test.cc util/testharness.cc port/thread.cc
+thread_test: LDFLAGS += -std=c++0x
 
 .PHONY: clean
 clean:
