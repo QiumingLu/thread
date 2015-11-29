@@ -12,21 +12,21 @@ namespace port {
 
 class Thread {
  public:
-   typedef std::function<void ()> ThreadFunc;
+  typedef std::function<void ()> ThreadFunc;
 
-   explicit Thread(const ThreadFunc&, const std::string& name = std::string());
-  
-   ~Thread();
+  explicit Thread(const ThreadFunc&, const std::string& name = std::string());
 
-   void Start();
-   void Join();  // return pthread_join()
+  ~Thread();
 
-   bool Started() const { return started_; }
-   pthread_t PthreadId() const { return pthread_id_; }
-   pid_t Tid() const { return *tid_; }
-   const std::string& Name() const { return name_; }
-   
-   static int NumCreated() { return num_created_.Get(); }
+  void Start();
+  void Join();  // return pthread_join()
+
+  bool Started() const { return started_; }
+  pthread_t PthreadId() const { return pthread_id_; }
+  pid_t Tid() const { return *tid_; }
+  const std::string& Name() const { return name_; }
+
+  static int NumCreated() { return num_created_.Get(); }
 
  private:
   void SetDefaultName();
