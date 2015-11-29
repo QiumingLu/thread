@@ -8,6 +8,7 @@ TESTS= countdownlatch_test \
 	   coding_test         \
 	   hash_test           \
 	   cache_test          \
+	   atomic_test         \
 
 all: $(TESTS)
 
@@ -29,6 +30,9 @@ hash_test: test/hash_test.cc util/testharness.cc util/hash.cc util/coding.cc
 
 cache_test: test/cache_test.cc util/testharness.cc util/cache.cc util/hash.cc \
             util/coding.cc port/port_posix.cc
+
+atomic_test: test/atomic_test.cc util/testharness.cc
+
 .PHONY: clean
 clean:
 	rm -f $(TESTS)
