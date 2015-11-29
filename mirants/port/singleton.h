@@ -1,24 +1,41 @@
-#ifndef SINGLETON_H
-#define SINGLETON_H
+// int pthread_once(pthread_once_t* once_control, void (*init_routine)(void));
+// pthread_once_t once_control = PTHREAD_ONCE_INIT
 
-#include "noncopyable.h"
+#ifndef MIRANTS_PORT_SINGLETON_H_
+#define MIRANTS_PORT_SINGLETON_H_
 
-// 单线程下，正确。
-// C++11以及以后的版本的多线程下，正确。
-// C++11之前的多线程下，不一定正确
-// g++ 4.0 后正确
+#include <pthread.h>
+
+namespace mirants {
 
 template<typename T> 
-class Singleton : private Noncopyable {
+class Singleton {
  public:
-   static T& Instance() {
-     static T value;
-     return value;
-   }
+  static T* Instance() {
+    pthread_once(&once_, &Singleton<T>::Init);
+    return instance_;
+  }
+
+  static void ShutDown() {
+    delete instance_;
+    instance_ = NULL;
+  }
 
  private:
-   Singleton();
-   ~Singleton();
+  static void Init() {
+    instance_ = new T();
+  }
+
+  static pthread_once_t once_;
+  static T* instance_;
 };
 
-#endif  // SINGLETON_H
+template<typename T>
+pthread_once_t Singleton<T>::once_ = PTHREAD_ONCE_INIT;
+
+template<typename T>
+T* Singleton<T>::instance_ = NULL;
+
+}  // namespace mirants
+
+#endif  // MIRANTS_PORT_SINGLETON_H_

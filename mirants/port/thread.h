@@ -8,7 +8,6 @@
 #include "port/atomic.h"
 
 namespace mirants {
-namespace port {
 
 class Thread {
  public:
@@ -46,7 +45,6 @@ class Thread {
   void operator=(const Thread&);
 };
 
-}  // namespace port
 }  // namespace mirants
 
 #endif  // MIRANTS_PORT_THREAD_H_

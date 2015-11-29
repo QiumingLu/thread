@@ -38,26 +38,26 @@ TEST(ThreadTest, Tid) {
   ASSERT_EQ(::getpid(), currentthread::Tid());
   printf("pid=%d, tid=%d\n", getpid(), currentthread::Tid());
 
-  port::Thread t1(ThreadFunc);
+  Thread t1(ThreadFunc);
   t1.Start();
   t1.Join();
 
-  port::Thread t2(std::bind(ThreadFunc2, 42), 
+  Thread t2(std::bind(ThreadFunc2, 42), 
                   "thread for free function with argument");
   t2.Start();
   t2.Join();
 
   Foo foo(87.53);
-  port::Thread t3(std::bind(&Foo::MemberFunc, &foo),
+  Thread t3(std::bind(&Foo::MemberFunc, &foo),
                   "thread for member function without argument");
   t3.Start();
   t3.Join();
 
-  port::Thread t4(std::bind(&Foo::MemberFunc2, std::ref(foo), std::string("test thread")));
+  Thread t4(std::bind(&Foo::MemberFunc2, std::ref(foo), std::string("test thread")));
   t4.Start();
   t4.Join();
 
-  ASSERT_EQ(4, port::Thread::NumCreated());
+  ASSERT_EQ(4, Thread::NumCreated());
 }
 
 }  // namespace mirants

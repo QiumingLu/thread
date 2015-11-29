@@ -2,7 +2,7 @@
 #define MIRANTS_UTIL_COUNTDOWNLATCH_H_
 
 #include "port/port_posix.h"
-#include "util/mutexlock.h"
+#include "port/mutexlock.h"
 
 namespace mirants {
 

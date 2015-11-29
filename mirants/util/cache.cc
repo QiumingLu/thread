@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #include "port/port_posix.h"
-#include "util/mutexlock.h"
+#include "port/mutexlock.h"
 #include "util/hash.h"
 
 namespace mirants {

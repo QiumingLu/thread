@@ -47,7 +47,7 @@ class ThreadNameInitializer {
 ThreadNameInitializer init;
 
 struct ThreadData {
-  typedef mirants::port::Thread::ThreadFunc ThreadFunc;
+  typedef mirants::Thread::ThreadFunc ThreadFunc;
   ThreadFunc user_function;
   std::string thread_name;
   std::weak_ptr<pid_t> thread_weak_tid;
@@ -96,8 +96,6 @@ void currentthread::CacheTid() {
 bool currentthread::IsMainThread() {
   return Tid() == ::getpid();
 }
-
-namespace port {
 
 AtomicInt32 Thread::num_created_;
 
@@ -148,5 +146,4 @@ void Thread::Join() {
   PthreadCall("join thread", pthread_join(pthread_id_, NULL));
 }
 
-}  // namespace port
 }  // namespace mirants

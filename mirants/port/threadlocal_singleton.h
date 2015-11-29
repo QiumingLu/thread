@@ -1,67 +1,63 @@
-#ifndef THREADLOCAL_SINGLETON_H
-#define THREADLOCAL_SINGLETON_H
+#ifndef MIRANTS_PORT_THREADLOCAL_SINGLETON_H_
+#define MIRANTS_PORT_THREADLOCAL_SINGLETON_H_
 
 #include <assert.h>
-
 #include <pthread.h>
-
 #include "noncopyable.h"
 
+namespace mirants {
+  
 template<typename T>
 class ThreadLocalSingleton : private Noncopyable {
  public:
-  static T& Instance() {
-    if (!t_value_) {
-      t_value_ = new T();
-      deleter_.set(t_value_);
+  static T& get() {
+    if (!value_) {
+      value_ = new T();
+      helper_.set(value_);
     }
-    return *t_value_;
+    return *value_;
   }
 
   static T* pointer() {
-    return t_value_;
+    return value_;
   }
 
  private:
   ThreadLocalSingleton();
   ~ThreadLocalSingleton();
 
-  static void destructor(void* obj) {
-    assert(obj == t_value_);
-    typedef char T_must_be_complete_type[sizeof(T) == 0 ? -1 : 1];
-    T_must_be_complete_type dummy; (void) dummy;
-    delete t_value_;
-    t_value_ = 0;
+  static void Delete(void* value) {
+    delete static_cast<T*>(value);
   }
 
-  class Deleter {
+  class Helper {
    public:
-    Deleter() {
-      pthread_key_create(&pkey_, &ThreadLocalSingleton::destructor);
+    Helper() {
+      pthread_key_create(&key_, &ThreadLocalSingleton::Delete);
     }
 
-    ~Deleter() {
-      pthread_key_delete(pkey_);
+    ~Helper() {
+      pthread_key_delete(key_);
     }
 
-    void set(T* new_obj) {
-      assert(pthread_getspecific(pkey_) == NULL);
-      pthread_setspecific(pkey_, new_obj);
+    void set(T* value) {
+      assert(pthread_getspecific(key_) == NULL);
+      pthread_setspecific(key_, value);
     }
 
-    pthread_key_t pkey_;
+    pthread_key_t key_;
   };
 
-  
-
-  static __thread T* t_value_;
-  static Deleter deleter_;
+  static __thread T* value_;
+  static Helper helper_;
 };
 
 template<typename T>
-__thread T* ThreadLocalSingleton<T>::t_value_ = NULL;
+__thread T* ThreadLocalSingleton<T>::value_ = NULL;
 
 template<typename T>
-typename ThreadLocalSingleton<T>::Deleter ThreadLocalSingleton<T>::deleter_;
+typename ThreadLocalSingleton<T>::Helper ThreadLocalSingleton<T>::helper_;
 
-#endif  // THREADLOCAL_SINGLETON_H
+}  // namespace mirants
+
+#endif  // MIRANTS_PORT_THREADLOCAL_SINGLETON_H_
