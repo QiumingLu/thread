@@ -2,7 +2,7 @@
 #define MIRANTS_PORT_BLOCKINGQUEUE_H_
 
 #include <deque>
-
+#include <assert.h>
 #include "port/port_posix.h"
 #include "port/mutexlock.h"
 
@@ -12,7 +12,6 @@ template<typename T>
 class BlockingQueue {
  public:
   BlockingQueue() : mutex_(), not_empty_(&mutex_) { }
-  ~BlockingQueue();
 
   void Push(const T& t) {
     MutexLock l(&mutex_);
@@ -24,16 +23,16 @@ class BlockingQueue {
   void Pop() {
     MutexLock l(&mutex_);
     while (queue_.empty()) {
-      not_empty_.wait();
+      not_empty_.Wait();
     }
     assert(!queue_.empty());
-    queue_.pop_back();
+    queue_.pop_front();
   }
 
   T Take() {
     MutexLock l(&mutex_);
     while (queue_.empty()) {
-      not_empty_.wait();
+      not_empty_.Wait();
     }
     assert(!queue_.empty());
     T t(queue_.front());
@@ -54,7 +53,7 @@ class BlockingQueue {
   // No copying allow
   BlockingQueue(const BlockingQueue&);
   void operator=(const BlockingQueue&);
-}
+};
 
 }  // namespace mirants 
 

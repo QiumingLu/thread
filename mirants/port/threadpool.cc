@@ -52,7 +52,7 @@ void ThreadPool::PushTaskInToPool(const Task& t) {
   MutexLock l(&mutex_);
   while (running_) {
     queue_.push_back(t);
-    not_empty_.SignalAll();
+    not_empty_.Signal();
   }
 }
 

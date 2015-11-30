@@ -19,13 +19,13 @@ class ThreadPool {
                       const std::string& poolname = std::string("ThreadPool"));
   ~ThreadPool();
 
-  void Start(int poolsize);
+  void Start();
   void ShutDown();
 
   const std::string& PoolName() const;
   size_t QueueSize() const;
 
-  void PushTaskInToPool(const Task& f);
+  void PushTaskInToPool(const Task& t);
 
 
  private:
@@ -35,10 +35,9 @@ class ThreadPool {
   mutable port::Mutex mutex_;
   port::CondVar not_empty_;
   std::string poolname_;
-  Task thread_init_callback_;
   int poolsize_;
   boost::ptr_vector<mirants::Thread> threads_;
-  BlockingQueue<Task> queue_;
+  std::deque<Task> queue_;
   bool running_;
 
   // No copying allow
