@@ -7,7 +7,6 @@
 #include <boost/ptr_container/ptr_vector.hpp>
 #include "port/port_posix.h"
 #include "port/thread.h"
-#include "port/blockingqueue.h"
 
 namespace mirants {
 
@@ -36,7 +35,7 @@ class ThreadPool {
   port::CondVar not_empty_;
   std::string poolname_;
   int poolsize_;
-  boost::ptr_vector<mirants::Thread> threads_;
+  boost::ptr_vector<Thread> threads_;
   std::deque<Task> queue_;
   bool running_;
 

@@ -1,7 +1,7 @@
 #include "port/threadpool.h"
 #include <algorithm>
 #include "port/mutexlock.h"
-
+#include <stdio.h>
 namespace mirants {
 
 ThreadPool::ThreadPool(int poolsize, const std::string& poolname)
@@ -19,12 +19,15 @@ ThreadPool::~ThreadPool() {
 }
 
 void ThreadPool::Start() {
+  assert(threads_.empty());
   running_ = true;
-  threads_.reverse(poolsize_);
+  threads_.reserve(poolsize_);
   for (int i= 0; i < poolsize_; ++i) {
+    char id[32];
+    snprintf(id, sizeof(id), "%d", i+1); 
     threads_.push_back(new mirants::Thread(
-          std::bind(&ThreadPool::ThreadFunc, this), poolname_+i));
-    threads_.Start();
+          std::bind(&ThreadPool::ThreadFunc, this), poolname_+id));
+    threads_[i].Start();
   }
 }
 
@@ -34,12 +37,13 @@ void ThreadPool::ShutDown() {
   running_ = false;
   not_empty_.SignalAll();
   }
+  using namespace std::placeholders;
   for_each(threads_.begin(),
            threads_.end(),
-           std::bind(&mirants::Thread::Join, -1));
+           std::bind(&mirants::Thread::Join, _1));
 }
 
-const std::string& PoolName() const {
+const std::string& ThreadPool::PoolName() const {
   return poolname_;
 }
 
@@ -50,18 +54,19 @@ size_t ThreadPool::QueueSize() const {
 
 void ThreadPool::PushTaskInToPool(const Task& t) {
   MutexLock l(&mutex_);
-  while (running_) {
+  if (running_) {
     queue_.push_back(t);
-    not_empty_.Signal();
+    not_empty_.SignalAll();
   }
 }
 
-mirants::Task ThreadPool::Take() {
+
+ThreadPool::Task ThreadPool::Take() {
   MutexLock l(&mutex_);
   while (queue_.empty() && running_) {
-    not_empty_.wait();
+    not_empty_.Wait();
   }
-  Task t;
+  ThreadPool::Task t;
   if (!queue_.empty()) {
     t = queue_.front();
     queue_.pop_front();
@@ -71,7 +76,7 @@ mirants::Task ThreadPool::Take() {
 
 void ThreadPool::ThreadFunc() {
   while (running_) {
-    Task task(Take());
+    ThreadPool::Task task(Take());
     if (task) {
       task();
     }

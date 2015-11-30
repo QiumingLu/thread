@@ -1,5 +1,6 @@
 #include "port/threadpool.h"
 #include "port/current_thread.h"
+#include "port/countdownlatch.h"
 
 namespace mirants {
 
@@ -13,13 +14,16 @@ void Test(int poolsize) {
   for (int i = 0; i < 100; ++i) {
     pool.PushTaskInToPool(Print);
   }
+  CountDownLatch latch(1);
+  pool.PushTaskInToPool(std::bind(&CountDownLatch::CountDown, &latch));
+  latch.Wait();
   pool.ShutDown();
 }
 
 }  // namespace mirants
 
 int main(int argc, char** argv) {
-  mirants::Test(2);
+  mirants::Test(4);
   return 0;
 }
 
