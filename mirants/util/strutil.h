@@ -120,25 +120,42 @@ void StripWhitespace(std::string* s);
 // --------------------------------------------------------------------------
 
 inline void LowerString(std::string* s) {
+  std::string::iterator end = s->end();
+  for (std::string::iterator it = s->begin(); it != end; ++it) {
+    // tolower() changesbased on locale, We don't want this!
+    if ('A' <= *it && *it <= 'Z') {
+      *it += 'a' - 'A';
+    }
+  }
 }
 
 inline void UpperString(std::string* s) {
+  std::string iterator end = s->end();
+  for (std::string::iterator it = s->begin(); it != end; ++it) {
+    // toupper() changes based on locale. We don't want this!
+    if ('a' <= *it && *it <= 'z') {
+      *it += 'A' - 'a';
+    }
+  }
 }
 
-inline void ToUpper(const std::string& s) {
+inline std::string ToUpper(const std::string& s) {
+  std::string out = s;
+  UpperString(&out);
+  return out;
 }
 
-// --------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 // StringReplace() 
 //    Given me a string and two patterns "old" and "new", and I replace 
 //    the first instance of "old" in the string with "new", if it
 //    exsits. RETURN a new string, regardless of whether the replacement
 //    happended or not.
-// --------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 std::string StringReplace(const std::string& s, const std::string& oldsub,
                           const std::string& newsub, bool replace_all);
 
-// --------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 // SplitStringUsing() 
 //    Split a string using a character delimiter. Append the components
 //    to 'result'. If there are consecutive delimiters, this function skips
@@ -147,6 +164,7 @@ std::string StringReplace(const std::string& s, const std::string& oldsub,
 void SplitStringUsing(const std::string& full, const char* delim,
                       std::vector<std::string>* res);
 
+// ------------------------------------------------------------------------
 // Split a string using one or more byte delimiters, presented
 // as a nul-terminated c string. Append the components to 'result'.
 // If there are consecutive delimiters, this function will return
@@ -166,6 +184,13 @@ void SplitStringAllowEmpty(const std::string& full,
 inline std::vector<std::string> Split(std::string& full,
                                       const char* delim,
                                       const skip_empty = true) {
+  std::vector<std::string> result;
+  if (skip_empty) {
+    SplitStringUsing(full, delim, &result);
+  } else {
+    SplitStringAllowEmpty(full, delim, &result);
+  }
+  return result;
 }
 
 // -------------------------------------------------------------------------
@@ -178,6 +203,13 @@ inline std::vector<std::string> Split(std::string& full,
 // -------------------------------------------------------------------------
 void JoinStrings(const std::vector<std::string>& components,
                  const char* delim, std::string* result);
+
+inline std::string JoinStrings(const std::vector<std::string>& components,
+                               const char* delim) {
+  std::string result;
+  JoinStrings(components, delim, &result);
+  return result;
+}
 
 }  // namespace mirants
 
