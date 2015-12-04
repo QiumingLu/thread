@@ -114,7 +114,7 @@ TEST(SkipTest, InsertAddLookup) {
     ASSERT_TRUE(!iter.Valid());
   }
 }
-
+/*
 // We want to make sure that with a single writer and multiple
 // concurrent readers (with no syncronization other than when a 
 // reader's iterator is created), the reader always observers all the
@@ -181,6 +181,7 @@ class ConcurrentTest {
   };
 
 }; 
+*/
 
 }  // namespace mirants
 

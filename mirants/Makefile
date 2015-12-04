@@ -5,6 +5,7 @@ CXXFLAGS+=-O2
 HEADERS=$(wildcard *.h)
 TESTS= countdownlatch_test      \
 	   arena_test               \
+	   skiplist_test            \
 	   coding_test              \
 	   hash_test                \
 	   cache_test               \
