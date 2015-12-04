@@ -19,39 +19,83 @@ namespace mirants {
 // ---------------------------------------------------------------------------
 
 inline bool ascii_isalnum(char c) {
+  return ('a' <= c && c <= 'z') ||
+         ('A' <= c && c <= 'Z') ||
+         ('0' <= c && c <= '9');
 }
 
 inline bool ascii_isdigit(char c) {
+  return ('0' <= c && c <= '9');
 }
 
 inline bool ascii_isspace(char c) {
+  return c == ' ' || c == '\t' || c == '\n' || c == '\v' ||
+         c == '\f' || c == '\r';
 }
 
 inline bool ascii_isupper(char c) {
+  return c >= 'A' && c <= 'Z';
 }
 
 inline bool ascii_islower(char c) {
+  return c >= 'a' && c <= 'z';
 }
 
 inline char ascii_toupper(char c) {
+  return ascii_islower(c) ? c - ('a' - 'A') : c;
 }
 
 inline int hex_digit_to_int(char c) {
+  // Assume ASCII
+  int x = static_cast<unsigned char>(c);
+  if (x > '9') {
+    x += 9;
+  }
+  return x & 0xf;
 }
 
 // --------------------------------------------------------------------------
 // HasPrefixString() 
 //    Check if a string begins with a given prefix.
-// StringPrefixString() 
+// StripPrefixString() 
 //    Given a string and a putative prefix, returns the string minus the
 //    prefix string if the prefix matches, otherwise the original string.
 // --------------------------------------------------------------------------
 inline bool HasPrefixString(const std::string& str,
                             const std::string& prefix) {
+  return str.size() >= prefix.size() && 
+         str.compare(0, prefix.size(), prefix) == 0;
 }
 
-inline std::string  StripSuffixString(const std::string& str, 
+inline std::string  StripPrefixString(const std::string& str, 
+                                      const std::string& prefix) {
+  if (HasPrefixString(str, prefix)) {
+    return str.substr(prefix.size());
+  } else {
+    return str;
+  }
+}
+
+// --------------------------------------------------------------------------
+// HasSuffixString()
+//    Return true if str ends in suffix.
+// StripSuffixString()
+//    Given a string and a putative suffix, returns the string minus the 
+//    suffix string if the matches, otherwise the original string.
+// --------------------------------------------------------------------------
+inline bool HasSuffixString(const std::string& str,
                             const std::string& suffix) {
+  return str.size() >= suffix.size() &&
+         str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+}
+
+inline std::string StripSuffixString(const std::string& str,
+                                     const std::string& suffix) {
+  if (HasSuffixString(str, suffix)) {
+    return str.substr(0, str.size() - suffix.size(), suffix) == 0;
+  } else {
+    return str;
+  }
 }
 
 // --------------------------------------------------------------------------
