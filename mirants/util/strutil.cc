@@ -1,5 +1,8 @@
 #include "util/strutil.h"
 
+#include <iterator>
+#include <assert.h>
+
 namespace mirants {
 
 // -------------------------------------------------------------------------
@@ -159,10 +162,25 @@ void SplitStringToIteratorAllowEmpty(const StringType& full,
                                      const char* delim, 
                                      int pieces,
                                      ITR& result) {
+  std::string::size_type begin_index, end_index;
+  begin_index = 0;
+
+  for (int i = 0; (i < pieces - 1) || (pieces == 0); ++i) {
+    end_index = full.find_first_of(delim, begin_index);
+    if (end_index == std::string::npos) {
+      *result++ = full.substr(begin_index);
+      return;
+    }
+    *result++ = full.substr(begin_index, (end_index - begin_index));
+    begin_index = end_index + 1;
+  }
+  *result++ = full.substr(begin_index);
 }
 
 void SplitStringAllowEmpty(const std::string& full, const char* delim,
                            std::vector<std::string>* result) {
+  std::back_insert_iterator< std::vector<std::string> > it(*result);
+  SplitStringAllowEmpty(full, delim, 0, it);
 }
 
 // -------------------------------------------------------------------------
@@ -176,11 +194,33 @@ static void JoinStringsIterator(const ITERATOR& start,
                                 const ITERATOR& end,
                                 const char* delim,
                                 std::string* result) {
+  assert(result != NULL);
+  result->clear();
+  int delim_length = strlen(delim);
+
+  // Precompute resulting length so we can reserve() memory in one shot.
+  int length = 0;
+  for (ITERATOR iter = start; iter != end; ++iter) {
+    if (iter != start) {
+      length += delim_length;
+    }
+    length += iter->size();
+  }
+  result->reserve(length);
+
+  // Now combine everything.
+  for (ITERATOR iter = start; iter != end; ++iter) {
+    if (iter != start) {
+      result->append(delim, delim_length);
+    }
+    result->append(iter->data(), iter->size());
+  }
 }
 
 void JoinStrings(const std::vector<std::string>& components,
                  const char* delim,
                  std::string* result) {
+  JoinStringsIterator(components.begin(), components.end(), delim, result);
 }
 
 }  // namespace mirants
