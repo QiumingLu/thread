@@ -17,7 +17,6 @@ namespace mirants {
 // ascii_isspace()
 //    Check if the character is a space character.
 // ---------------------------------------------------------------------------
-
 inline bool ascii_isalnum(char c) {
   return ('a' <= c && c <= 'z') ||
          ('A' <= c && c <= 'Z') ||
@@ -92,7 +91,7 @@ inline bool HasSuffixString(const std::string& str,
 inline std::string StripSuffixString(const std::string& str,
                                      const std::string& suffix) {
   if (HasSuffixString(str, suffix)) {
-    return str.substr(0, str.size() - suffix.size(), suffix) == 0;
+    return str.substr(0, str.size() - suffix.size());
   } else {
     return str;
   }
