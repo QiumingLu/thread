@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "include/mirants/slice.h"
 #include "util/status.h"
 
 namespace mirants {
@@ -30,13 +31,14 @@ class LogMessage {
   LogMessage& operator<<(char value);
   LogMessage& operator<<(int value);
   // TODO
-  //LogMessage& operator<<(uint value);
+  LogMessage& operator<<(unsigned int value);
   LogMessage& operator<<(long value);
   LogMessage& operator<<(unsigned long value);
   LogMessage& operator<<(long long value);
   LogMessage& operator<<(unsigned long long value);
   LogMessage& operator<<(double value);
   LogMessage& operator<<(void* value);
+  LogMessage& operator<<(const Slice& slice);
   LogMessage& operator<<(const Status& status);
 
  private:
