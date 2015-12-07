@@ -5,6 +5,7 @@
 
 #include "include/mirants/slice.h"
 #include "util/status.h"
+#include "tuil/base.h"
 
 namespace mirants {
 
@@ -30,7 +31,6 @@ class LogMessage {
   LogMessage& operator<<(const char* value);
   LogMessage& operator<<(char value);
   LogMessage& operator<<(int value);
-  // TODO
   LogMessage& operator<<(unsigned int value);
   LogMessage& operator<<(long value);
   LogMessage& operator<<(unsigned long value);
@@ -93,6 +93,11 @@ T* CheckNotNull(const char* /* file */, int /* line */,
 
 typedef void LogHandler(LogLevel level, const char* filename, int line,
                         const std::string& message);
+
+extern void DefaultLogHandler(LogLevel level, const char* filename, 
+                              int line, const std::string& message);
+
+extern void NullLogHandler(LogLevel, const char*, int, const std::string&);
 
 LogHandler* SetLogHandler(LogHandler* new_func);
 
