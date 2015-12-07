@@ -1,13 +1,16 @@
 #ifndef MIRANTS_UTIL_ATOMICOPS_H_
 #define MIRANTS_UTIL_ATOMICOPS_H_
 
+#include "util/base.h"
+
 namespace mirants {
 namespace atomic {
 
-#if __LP64__
+#if defined(__LP64__)
 # define ARCH_64_BIT_BIT 1
 #else 
 # define ARCH_32_BIT_BIT 1
+#endif
 
 typedef int32 Atomic32;
 #ifdef ARCH_64_BIT_BIT
@@ -15,7 +18,6 @@ typedef int32 Atomic32;
 typedef int64 Atomic64;
 #else
 typedef intptr_t Atomic64
-#endif
 #endif
 
 // Use AtomicWord for a machine-sized pointer. It will use the Atomic32 or 
@@ -64,6 +66,38 @@ Atomic32 Release_CompareAndSwap(volatile Atomic32* ptr,
 #if defined(__MINGW32__) && defined(MemoryBarrier)
 #undef MemoryBarrier
 #endif
+
+void MemoryBarrier();
+void NoBarrier_Store(volatile Atomic32* ptr, Atomic32 value);
+void Acquire_Store(volatile Atomic32* ptr, Atomic32 value);
+void Release_Store(volatile Atomic32* ptr, Atomic32 value);
+
+Atomic32 NoBarrier_Load(volatile const Atomic32* ptr);
+Atomic32 Acquire_Load(volatile const Atomic32* ptr);
+Atomic32 Release_Load(volatile const Atomic32* ptr);
+
+// 64-bit atomic operations (only available on 64-bit processor).
+#ifdef ARCH_64_BIT_BIT
+Atomic64 NoBarrier_CompareAndSwap(volatile Atomic64* ptr,
+                                  Atomic64 old_value, 
+                                  Atomic64 new_value);
+Atomic64 NoBarrier_AtomicExchange(volatile Atomic64* ptr, Atomic64 new_value);
+Atomic64 NoBarrier_AtomicIncrement(volatile Atomic64* ptr, Atomic64 increment);
+Atomic64 Barrier_AtomicIncrement(volatile Atomic64* ptr, Atomic64 increment);
+
+Atomic64 Acquire_CompareAndSwap(volatile Atomic64* ptr,
+                                Atomic64 old_value,
+                                Atomic64 new_value);
+Atomic64 Release_CompareAndSwap(volatile Atomic64* ptr,
+                                Atomic64 old_value,
+                                Atomic64 new_value);
+void NoBarrier_Store(volatile Atomic64* ptr, Atomic64 value);
+void Acquire_Store(volatile Atomic64* ptr, Atomic64 value);
+void Release_Store(volatile Atomic64* ptr, Atomic64 value);
+Atomic64 NoBarrier_Load(volatile const Atomic64* ptr);
+Atomic64 Acquire_Load(volatile const Atomic64* ptr);
+Atomic64 Release_Load(volatile const Atomic64* ptr);
+#endif 
 
 }  //namespace atomic
 }  // namespace mirants  
