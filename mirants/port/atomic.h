@@ -41,8 +41,8 @@ class AtomicIntegerT {
 
 }  // namespace port
 
-typedef port::AtomicIntegerT<uint32_t> AtomicInt32;
-typedef port::AtomicIntegerT<uint64_t> AtomicInt64;
+typedef port::AtomicIntegerT<int32_t> AtomicInt32;
+typedef port::AtomicIntegerT<int64_t> AtomicInt64;
 
 }  // namespace mirants
 
