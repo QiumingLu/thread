@@ -40,19 +40,19 @@ std::string Status::ToString() const {
         type = "OK";
         break;
       case kNotFound:
-        type = "NotFound";
+        type = "NotFound: ";
         break;
       case kCorruption:
-        type = "Corruption";
+        type = "Corruption: ";
         break;
       case kNotSupported:
-        type = "No implemented";
+        type = "No implemented: ";
         break;
       case kInvalidArgument:
-        type = "Invalid argument";
+        type = "Invalid argument: ";
         break;
       case kIOError:
-        type = "IO error";
+        type = "IO error: ";
         break;
       default:
         snprintf(tmp, sizeof(tmp),"Unknown code(%d): ",
