@@ -180,7 +180,7 @@ void SplitStringToIteratorAllowEmpty(const StringType& full,
 void SplitStringAllowEmpty(const std::string& full, const char* delim,
                            std::vector<std::string>* result) {
   std::back_insert_iterator< std::vector<std::string> > it(*result);
-  SplitStringAllowEmpty(full, delim, 0, it);
+  SplitStringToIteratorAllowEmpty(full, delim, 0, it);
 }
 
 // -------------------------------------------------------------------------

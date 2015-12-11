@@ -41,7 +41,7 @@ class scoped_ptr {
   void reset(C* p = NULL) {
     if (p != ptr_) {
       // 为了防止 C 只有声明、没有定义，也就是为了确保 C 是完整类型。
-      enum { type_must_be_complete = sizeof(C); }
+      enum { type_must_be_complete = sizeof(C) };
       delete ptr_;
       ptr_ = p;
     }
@@ -122,7 +122,7 @@ class scoped_array {
   // Destructor. If there is a C object, delete it.
   // We don't need to test ptr_ == NULL because C++ does that for us.
   ~scoped_array() {
-    enum { type_must_be_complete = sizeof(C); };
+    enum { type_must_be_complete = sizeof(C) };
     delete[] array_;
   }
 
@@ -131,7 +131,7 @@ class scoped_array {
   // this->reset(this->get()) works.
   void reset(C* p = NULL) {
     if (p != array_) {
-      enum { type_must_be_complete = sizeof(C); }
+      enum { type_must_be_complete = sizeof(C) };
       delete[] array_;
       array_ = p;
     }
