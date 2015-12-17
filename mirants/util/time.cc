@@ -2,6 +2,8 @@
 
 #include <assert.h>
 
+#include "util/stringprintf.h"
+
 namespace mirants {
 
 namespace {

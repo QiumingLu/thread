@@ -104,7 +104,7 @@ class shared_ptr {
   }
 
   // TODO(austern): Consider providing this constructor. The draft C++ standard
-  // (20.8.10.2.1) includes it. However, it says that this constructor throwas
+  // (20.8.10.2.1) includes it. However, it says that this constructor throws
   // a bad_weak_ptr exception when ptr is expired. Is it better to provide this
   // constructor and make it do something else, like fail with a CHECK, or to
   // leave this constructor out entirely?
