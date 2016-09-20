@@ -3,7 +3,8 @@
 
 #include <deque>
 #include <assert.h>
-#include "port/port_posix.h"
+#include <pthread.h>
+#include "port/mutex.h"
 #include "port/mutexlock.h"
 
 namespace mirants {

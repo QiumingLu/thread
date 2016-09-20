@@ -5,7 +5,7 @@
 #include <deque>
 #include <string>
 #include <boost/ptr_container/ptr_vector.hpp>
-#include "port/port_posix.h"
+#include "port/mutex.h"
 #include "port/thread.h"
 
 namespace mirants {
