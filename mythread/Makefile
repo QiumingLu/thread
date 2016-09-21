@@ -15,18 +15,20 @@ $(TESTS): $(HEADERS)
 $(TESTS):
 	g++ $(CXXFLAGS) -o $@ $(filter %.cc, $^) $(LDFLAGS) -lpthread
 
+LDFLAGS += -Werror -Wno-sign-conversion -Wconversion -Wall \
+		   -Wno-unused-parameter -Woverloaded-virtual      \
+		   -Wextra -Wpointer-arith -Wshadow
+
 blockingqueue_test: tests/blockingqueue_test.cc include/mythread/thread.cc include/mythread/mutex.cc
-blockingqueue_test: LDFLAGS += -Werror
 
 thread_test: tests/thread_test.cc util/testharness.cc include/mythread/thread.cc
-thread_test: LDFLAGS += -Werror
 
 threadlocal_storage_test: tests/threadlocal_storage_test.cc include/mythread/thread.cc
-threadlocal_storage_test: LDFLAGS += -Werror
 
-threadpool_test: tests/threadpool_test.cc include/mythread/threadpool.cc include/mythread/thread.cc\
- include/mythread/mutex.cc
-threadpool_test: LDFLAGS += -Werror
+threadpool_test: tests/threadpool_test.cc \
+                 include/mythread/threadpool.cc \
+				 include/mythread/thread.cc\
+                 include/mythread/mutex.cc
 
 .PHONY: clean
 clean:
