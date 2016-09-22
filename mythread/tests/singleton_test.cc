@@ -1,8 +1,8 @@
 #include "mythread/singleton.h"
 #include "mythread/thread.h"
 
+#include <stdio.h>
 #include <string>
-
 
 namespace mythread {
 
