@@ -3,7 +3,7 @@
 
 #include <assert.h>
 #include <queue>
-#include "voyager/port/mutexlock.h"
+#include "mythread/mutexlock.h"
 
 namespace mythread {
 

@@ -27,7 +27,7 @@ void Test(int poolsize) {
 
 }  // namespace mythread
 
-int main(int argc, char** argv) {
+int main() {
   mythread::Test(4);
   return 0;
 }

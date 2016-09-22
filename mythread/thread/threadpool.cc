@@ -22,9 +22,10 @@ ThreadPool::~ThreadPool() {
 
 void ThreadPool::Start() {
   assert(!started_);
+  assert(size_ > 0);
   assert(threads_.empty());
   started_ = true;
-  for (int i= 0; i < size_; ++i) {
+  for (size_t i= 0; i < static_cast<size_t>(size_); ++i) {
     threads_.push_back(new Thread(&ThreadPool::ThreadFunc, this));
     threads_[i]->Start();
   }

@@ -1,22 +1,14 @@
-#include "voyager/port/threadlocalstorage_singleton.h"
+#include "include/mythread/threadlocal_singleton.h"
+#include "mythread/thread.h"
+
 #include <string>
 #include <stdio.h>
-#include <inttypes.h>
-#include "voyager/port/thread.h"
-#include "voyager/port/currentthread.h"
 
-namespace voyager {
-namespace port {
+namespace mythread {
 
 class Test {
  public:
   Test() {
-    printf("tid=%" PRIu64", constructing %p\n", CurrentThread::Tid(), this);
-  }
-
-  ~Test() {
-    printf("tid=%" PRIu64", destructing %p %s\n", 
-           CurrentThread::Tid(), this, name_.c_str());
   }
 
   const std::string& name() const { return name_; }
@@ -26,24 +18,20 @@ class Test {
   std::string name_;
 };
 
-void ThreadFunc(const std::string& n) {
-  printf("tid=%" PRIu64", %p name=%s\n",
-         CurrentThread::Tid(),
-         &ThreadLocalStorageSingleton<Test>::Instance(),
-         ThreadLocalStorageSingleton<Test>::Instance().name().c_str());
-  ThreadLocalStorageSingleton<Test>::Instance().set_name(n);
-  printf("tid=%" PRIu64", %p name=%s\n",
-         CurrentThread::Tid(),
-         &ThreadLocalStorageSingleton<Test>::Instance(),
-         ThreadLocalStorageSingleton<Test>::Instance().name().c_str());
+void ThreadFunc(void* arg) {
+  std::string* c = reinterpret_cast<std::string*>(arg);
+  printf("name=%s\n", ThreadLocalSingleton<Test>::get()->name().c_str());
+  ThreadLocalSingleton<Test>::get()->set_name(*c);
+  printf("name=%s\n", ThreadLocalSingleton<Test>::get()->name().c_str());
 }
 
-}  // namespace port
-}  // namespace voyager
+}  // namespace mythread
 
-int main(int argc, char** argv) {
-  voyager::port::Thread t1(std::bind(voyager::port::ThreadFunc, "thread 1"));
-  voyager::port::Thread t2(std::bind(voyager::port::ThreadFunc, "thread 2"));
+int main() {
+  std::string s1("thread 1");
+  std::string s2("thread 2");
+  mythread::Thread t1(mythread::ThreadFunc, &s1);
+  mythread::Thread t2(mythread::ThreadFunc, &s2);
   t1.Start();
   t2.Start();
   t1.Join();

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "include/mythread/countdownlatch.h"
+#include "mythread/countdownlatch.h"
 
 static int counter = 0;
 static int number  = 2;

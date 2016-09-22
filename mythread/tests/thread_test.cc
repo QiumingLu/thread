@@ -1,5 +1,4 @@
-#include "include/mythread/thread.h"
-#include "util/testharness.h"
+#include "mythread/thread.h"
 #include <stdio.h>
 
 namespace mythread {
@@ -16,9 +15,8 @@ class Foo {
 };
 
 
-class ThreadTest { };
 
-TEST(ThreadTest, TestThread) {
+void ThreadTest() {
   Thread t1(&ThreadFunc, NULL);
   t1.Start();
   t1.Join();
@@ -29,6 +27,7 @@ TEST(ThreadTest, TestThread) {
 
 }  // namespace mythread
 
-int main(int argc, char** argv) {
-  return mythread::test::RunAllTests();
+int main() {
+  mythread::ThreadTest();
+  return 0;
 }

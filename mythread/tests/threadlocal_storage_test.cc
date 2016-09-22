@@ -1,5 +1,5 @@
-#include "include/mythread/threadlocal_storage.h"
-#include "include/mythread/thread.h"
+#include "mythread/threadlocal_storage.h"
+#include "mythread/thread.h"
 #include <string>
 #include <stdio.h>
 
@@ -35,7 +35,7 @@ void ThreadFunc(void*) {
 
 }  // namespace mythread
 
-int main(int argc, char** argv) {
+int main() {
   mythread::obj1.Get()->set_name("main one");
   mythread::obj2.Get()->set_name("main two");
   mythread::Test();

@@ -1,35 +1,58 @@
 CXXFLAGS= -I. -I./include 
-CXXFLAGS+=-g -Wall
+CXXFLAGS+=-g
 CXXFLAGS+=-O2 
+CXXFLAGS+=-Werror -Wno-sign-conversion -Wconversion -Wall \
+		  -Wno-unused-parameter -Woverloaded-virtual -Wextra \
+		  -Wpointer-arith -Wshadow
 
 HEADERS=$(wildcard *.h)
-TESTS= blockingqueue_test       \
-	   thread_test              \
-	   threadlocal_storage_test \
-	   threadpool_test          \
 
-all: $(TESTS)
+LDFLAGS=-lpthread
 
-$(TESTS): $(HEADERS)
+TESTS= \
+	tests/blockingqueue_test         \
+	tests/bounded_blockingqueue_test \
+	tests/singleton_test             \
+	tests/thread_test                \
+	tests/threadlocal_storage_test   \
+	tests/threadlocal_singleton_test \
+	tests/threadpool_test            \
+
+OBJS=thread/mutex.o thread/thread.o thread/threadpool.o
+LIB=libmythread.a
+
+all: $(TESTS) $(LIB)
 
 $(TESTS):
-	g++ $(CXXFLAGS) -o $@ $(filter %.cc, $^) $(LDFLAGS) -lpthread
+	g++ $(CXXFLAGS) -o $@ $(HEADERS) $(filter %.cc, $^) $(LDFLAGS)
 
-LDFLAGS += -Werror -Wno-sign-conversion -Wconversion -Wall \
-		   -Wno-unused-parameter -Woverloaded-virtual      \
-		   -Wextra -Wpointer-arith -Wshadow
+$(LIB) : $(OBJS)
+	rm -f $@
+	ar cr $@ $(OBJS)
+	rm -f $(OBJS)
 
-blockingqueue_test: tests/blockingqueue_test.cc include/mythread/thread.cc include/mythread/mutex.cc
+tags :
+	ctags -R *
 
-thread_test: tests/thread_test.cc util/testharness.cc include/mythread/thread.cc
+tests/blockingqueue_test: tests/blockingqueue_test.cc thread/thread.cc \
+  thread/mutex.cc
 
-threadlocal_storage_test: tests/threadlocal_storage_test.cc include/mythread/thread.cc
+tests/bounded_blockingqueue_test: tests/bounded_blockingqueue_test.cc \
+  thread/thread.cc thread/mutex.cc
 
-threadpool_test: tests/threadpool_test.cc \
-                 include/mythread/threadpool.cc \
-				 include/mythread/thread.cc\
-                 include/mythread/mutex.cc
+tests/singleton_test: tests/singleton_test.cc thread/thread.cc
+
+tests/thread_test: tests/thread_test.cc thread/thread.cc
+
+tests/threadlocal_storage_test: tests/threadlocal_storage_test.cc \
+  thread/thread.cc
+
+tests/threadlocal_singleton_test: tests/threadlocalstorage_singleton_test.cc\
+  thread/thread.cc
+
+tests/threadpool_test: tests/threadpool_test.cc thread/threadpool.cc \
+  thread/thread.cc thread/mutex.cc
 
 .PHONY: clean
 clean:
-	rm -f $(TESTS)
+	rm -f $(TESTS) $(OBJS) $(LIB)

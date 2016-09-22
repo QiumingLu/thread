@@ -70,7 +70,7 @@ class BlockingQueueTest {
 
 }  // namespace mythread
 
-int main(int argc, char** argv) {
+int main() {
   mythread::BlockingQueueTest t(5);
   t.Start();
   t.Task(100);

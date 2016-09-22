@@ -1,17 +1,13 @@
-#include "include/mythread/bounded_blockingqueue.h"
-#include "include/mythread/countdownlatch.h"
-#include "include/mythread/thread.h"
+#include "mythread/bounded_blockingqueue.h"
+#include "mythread/countdownlatch.h"
+#include "mythread/thread.h"
 
 #include <stdio.h>
-#include <unistd.h>
-#include <inttypes.h>
 
-#include <memory>
+#include <string>
 #include <vector>
 
 namespace mythread {
-
-using namespace std::placeholders;
 
 class BoundedBlockingQueueTest {
  public:
@@ -19,10 +15,9 @@ class BoundedBlockingQueueTest {
       : queue_(18),
         latch_(threads_size),
         threads_size_(threads_size) {
-    for (int i = 0; i < threads_size_; ++i) {
-      threads_.push_back(std::unique_ptr<Thread>(new Thread(
-            std::bind(&BoundedBlockingQueueTest::ThreadFunc, this),
-            StringPrintf("thread %d", i))));
+    assert(threads_size_ > 0);
+    for (size_t i = 0; i < static_cast<size_t>(threads_size_); ++i) {
+      threads_.push_back(new Thread(&BoundedBlockingQueueTest::ThreadFunc, this));
       threads_[i]->Start();
     }
   }
@@ -31,33 +26,34 @@ class BoundedBlockingQueueTest {
     printf("waiting for all threads start...\n");
     latch_.Wait();
     for (int i = 1; i <= num; ++i) {
-      std::string task(StringPrintf("task %d", i));
-      queue_.Put(task);
-      printf("tid=%" PRIu64", add task=%s, queue's size=%zd\n",
-             CurrentThread::Tid(), task.c_str(), queue_.Size());
+      char task[32];
+      snprintf(task, sizeof(task), "task %d", i);
+      queue_.push(task);
     }
   }
 
-  void JoinAll() {
+  void Join() {
     for (int i = 0; i < threads_size_; ++i) {
-      queue_.Put("No task, stop!");
+      queue_.push("No task, stop!");
     }
-    for (int i = 0; i < threads_size_; ++i) {
+    for (size_t i = 0; i < threads_.size(); ++i) {
       threads_[i]->Join();
+      delete threads_[i];
     }
   }
 
  private:
-  void ThreadFunc() {
-    printf("tid=%" PRIu64", %s started.\n",
-           CurrentThread::Tid(), CurrentThread::ThreadName());
+  static void ThreadFunc(void* obj) {
+    BoundedBlockingQueueTest* t = reinterpret_cast<BoundedBlockingQueueTest*>(obj);
+    t->RunFunc();
+  }
+
+  void RunFunc() {
     latch_.CountDown();
     while (true) {
-      std::string task(queue_.Take());
+      std::string task(queue_.take());
       if (task == "No task, stop!") {
         printf("All taskes have been done! Yelp!\n");
-        printf("tid=%" PRIu64", get task = %s, queue's size = %zd\n",
-               CurrentThread::Tid(), task.c_str(), queue_.Size());
         break;
       }
     }
@@ -66,14 +62,14 @@ class BoundedBlockingQueueTest {
   BoundedBlockingQueue<std::string> queue_;
   CountDownLatch latch_;
   int threads_size_;
-  std::vector<std::unique_ptr<Thread>> threads_;
+  std::vector<Thread*> threads_;
 };
 
 }  // namespace mythread
 
-int main(int argc, char** argv) {
+int main() {
   mythread::BoundedBlockingQueueTest t(4);
   t.Task(100);
-  t.JoinAll();
+  t.Join();
   return 0;
 }
