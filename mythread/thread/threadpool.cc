@@ -50,8 +50,10 @@ size_t ThreadPool::QueueSize() const {
 
 void ThreadPool::Put(void (*function)(void*), void* arg) {
   MutexLock lock(&mutex_);
+  if (queue_.empty()) {
+    cond_.SignalAll();
+  }
   queue_.push(RunItem(function, arg));
-  cond_.SignalAll();
 }
 
 ThreadPool::RunItem ThreadPool::Take() {

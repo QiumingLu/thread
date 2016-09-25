@@ -23,8 +23,10 @@ class BoundedBlockingQueue {
       not_full.Wait();
     }
     assert(queue_.size() < capacity_);
+    if (queue_.empty()) {
+      not_empty.Signal();
+    }
     queue_.push(t);
-    not_empty.Signal();
   }
 
   void pop() {
@@ -33,8 +35,10 @@ class BoundedBlockingQueue {
       not_empty.Wait();
     }
     assert(!queue_.empty());
+    if (queue_.size() == capacity_) {
+      not_full.Signal();
+    }
     queue_.pop();
-    not_full.Signal();
   }
 
   T take() {
@@ -43,9 +47,11 @@ class BoundedBlockingQueue {
       not_empty.Wait();
     }
     assert(!queue_.empty());
+    if (queue_.size() == capacity_) {
+      not_full.Signal();
+    }
     T t(queue_.front());
     queue_.pop();
-    not_full.Signal();
     return t;
   }
 
