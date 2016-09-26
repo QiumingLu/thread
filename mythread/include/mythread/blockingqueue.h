@@ -14,7 +14,7 @@ class BlockingQueue {
 
   void push(const T& t) {
     MutexLock lock(&mutex_);
-    if (queue.empty()) {
+    if (queue_.empty()) {
       not_empty_.Signal();
     }
     queue_.push(t);
