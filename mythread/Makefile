@@ -5,8 +5,6 @@ CXXFLAGS+=-Werror -Wno-sign-conversion -Wconversion -Wall \
 		  -Wno-unused-parameter -Woverloaded-virtual -Wextra \
 		  -Wpointer-arith -Wshadow
 
-HEADERS=$(wildcard *.h)
-
 LDFLAGS=-lpthread
 
 TESTS= \
@@ -24,7 +22,7 @@ LIB=libmythread.a
 all: $(TESTS) $(LIB)
 
 $(TESTS):
-	g++ $(CXXFLAGS) -o $@ $(HEADERS) $(filter %.cc, $^) $(LDFLAGS)
+	g++ $(CXXFLAGS) -o $@ $(filter %.cc, $^) $(LDFLAGS)
 
 $(LIB) : $(OBJS)
 	rm -f $@
