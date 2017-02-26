@@ -1,4 +1,8 @@
-#include "include/mythread/threadlocal_singleton.h"
+// Copyright (c) 2015 Mirants Lu. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+#include "mythread/threadlocal_singleton.h"
 #include "mythread/thread.h"
 
 #include <string>

@@ -1,5 +1,5 @@
-#include "include/mythread/threadpool.h"
-#include "include/mythread/countdownlatch.h"
+#include "mythread/threadpool.h"
+#include "mythread/countdownlatch.h"
 #include <stdio.h>
 
 namespace mythread {

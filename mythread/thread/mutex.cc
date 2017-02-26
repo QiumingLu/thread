@@ -1,3 +1,7 @@
+// Copyright (c) 2015 Mirants Lu. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 #include "mythread/mutex.h"
 
 #include <stdlib.h>
@@ -51,4 +55,4 @@ void Condition::SignalAll() {
   PthreadCall("pthread_cond_broadcast", pthread_cond_broadcast(&cond_));
 }
 
-} // namespace mythread
+}  // namespace mythread

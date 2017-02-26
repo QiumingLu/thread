@@ -1,3 +1,7 @@
+// Copyright (c) 2015 Mirants Lu. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 #ifndef MYTHREAD_INCLUDE_COUNTDOWNLATCH_H_
 #define MYTHREAD_INCLUDE_COUNTDOWNLATCH_H_
 
@@ -39,6 +43,6 @@ class CountDownLatch {
   int count_;
 };
 
-} // namespace mythread
+}  // namespace mythread
 
 #endif  // MYTHREAD_INCLUDE_COUNTDOWNLATCH_H_
