@@ -14,11 +14,11 @@ namespace mythread {
 template<typename T>
 class BoundedBlockingQueue {
  public:
-  explicit BoundedBlockingQueue(size_t cap)
+  explicit BoundedBlockingQueue(size_t capacity)
       : mutex_(),
         not_full_(&mutex_),
         not_empty_(&mutex_),
-        capacity_(cap) {
+        capacity_(capacity) {
   }
 
   void push(const T& t) {

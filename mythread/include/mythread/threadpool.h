@@ -17,7 +17,7 @@ class Thread;
 
 class ThreadPool {
  public:
-  explicit ThreadPool(int s);
+  explicit ThreadPool(int size);
   ~ThreadPool();
 
   void Start();

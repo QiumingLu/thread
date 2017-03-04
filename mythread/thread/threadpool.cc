@@ -11,11 +11,11 @@
 
 namespace mythread {
 
-ThreadPool::ThreadPool(int s)
+ThreadPool::ThreadPool(int size)
     : mutex_(),
       cond_(&mutex_),
       started_(false),
-      size_(s) {
+      size_(size) {
 }
 
 ThreadPool::~ThreadPool() {

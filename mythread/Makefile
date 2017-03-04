@@ -5,9 +5,9 @@
 CXXFLAGS= -I. -I./include 
 CXXFLAGS+=-g
 CXXFLAGS+=-O2 
-CXXFLAGS+=-Werror -Wno-sign-conversion -Wconversion -Wall \
-		  -Wno-unused-parameter -Woverloaded-virtual -Wextra \
-		  -Wpointer-arith -Wshadow
+CXXFLAGS+= -Wno-sign-conversion -Wconversion -Wall \
+           -Wno-unused-parameter -Woverloaded-virtual -Wextra \
+	   -Wpointer-arith -Wshadow
 
 LDFLAGS=-lpthread
 
