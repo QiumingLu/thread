@@ -12,10 +12,10 @@ namespace mythread {
 class ThreadLocalStorageTest {
  public:
   std::string name() const { return name_; }
-  void set_name(const std::string& name) { name_ = name; }
+  void set_name(const std::string& n) { name_ = n; }
 
  private:
-  std::string name_;  
+  std::string name_;
 };
 
 ThreadLocalStorage<ThreadLocalStorageTest> obj1;
