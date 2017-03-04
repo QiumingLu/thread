@@ -14,21 +14,21 @@ namespace mythread {
 template<typename T>
 class BoundedBlockingQueue {
  public:
-  explicit BoundedBlockingQueue(size_t capacity)
+  explicit BoundedBlockingQueue(size_t cap)
       : mutex_(),
-        not_full(&mutex_),
-        not_empty(&mutex_),
-        capacity_(capacity) {
+        not_full_(&mutex_),
+        not_empty_(&mutex_),
+        capacity_(cap) {
   }
 
   void push(const T& t) {
     MutexLock lock(&mutex_);
     while (queue_.size() == capacity_) {
-      not_full.Wait();
+      not_full_.Wait();
     }
     assert(queue_.size() < capacity_);
     if (queue_.empty()) {
-      not_empty.Signal();
+      not_empty_.Signal();
     }
     queue_.push(t);
   }
@@ -36,11 +36,11 @@ class BoundedBlockingQueue {
   void pop() {
     MutexLock lock(&mutex_);
     while (queue_.empty()) {
-      not_empty.Wait();
+      not_empty_.Wait();
     }
     assert(!queue_.empty());
     if (queue_.size() == capacity_) {
-      not_full.Signal();
+      not_full_.Signal();
     }
     queue_.pop();
   }
@@ -48,11 +48,11 @@ class BoundedBlockingQueue {
   T take() {
     MutexLock lock(&mutex_);
     while (queue_.empty()) {
-      not_empty.Wait();
+      not_empty_.Wait();
     }
     assert(!queue_.empty());
     if (queue_.size() == capacity_) {
-      not_full.Signal();
+      not_full_.Signal();
     }
     T t(queue_.front());
     queue_.pop();
@@ -84,8 +84,8 @@ class BoundedBlockingQueue {
 
  private:
   mutable Mutex mutex_;
-  Condition not_full;
-  Condition not_empty;
+  Condition not_full_;
+  Condition not_empty_;
   const size_t capacity_;
   std::queue<T> queue_;
 
