@@ -3,4 +3,4 @@ A C++ Multithreaded Library For Linux, Mac OS X, FreeBSD, etc.
 <br/>
 <br/>[![Build Status](https://travis-ci.org/QiumingLu/thread.svg?branch=master)](https://travis-ci.org/QiumingLu/thread)
 <br/>
-<br/>Authors: Mirants Lu (mirantslu@gmail.com) 
+<br/>Author: Mirants Lu (mirantslu@gmail.com) 
