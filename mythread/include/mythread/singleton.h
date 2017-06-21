@@ -9,7 +9,7 @@
 
 namespace mythread {
 
-template<typename T>
+template <typename T>
 class Singleton {
  public:
   static T* Instance() {
@@ -23,18 +23,16 @@ class Singleton {
   }
 
  private:
-  static void Init() {
-    instance_ = new T();
-  }
+  static void Init() { instance_ = new T(); }
 
   static pthread_once_t once_;
   static T* instance_;
 };
 
-template<typename T>
+template <typename T>
 pthread_once_t Singleton<T>::once_ = PTHREAD_ONCE_INIT;
 
-template<typename T>
+template <typename T>
 T* Singleton<T>::instance_ = NULL;
 
 }  // namespace mythread

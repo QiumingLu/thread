@@ -32,8 +32,8 @@ class ThreadPool {
   struct RunItem {
     void (*function)(void*);
     void* arg;
-    RunItem() : function(NULL), arg(NULL) { }
-    RunItem(void (*f)(void*), void* a) : function(f), arg(a) { }
+    RunItem() : function(NULL), arg(NULL) {}
+    RunItem(void (*f)(void*), void* a) : function(f), arg(a) {}
   };
 
   static void ThreadFunc(void* obj);

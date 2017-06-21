@@ -12,7 +12,7 @@ namespace mythread {
 
 class SingletonTest {
  public:
-  SingletonTest() { }
+  SingletonTest() {}
   const std::string& name() const { return name_; }
   void setName(const std::string& n) { name_ = n; }
 

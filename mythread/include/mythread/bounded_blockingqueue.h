@@ -11,15 +11,14 @@
 
 namespace mythread {
 
-template<typename T>
+template <typename T>
 class BoundedBlockingQueue {
  public:
   explicit BoundedBlockingQueue(size_t capacity)
       : mutex_(),
         not_full_(&mutex_),
         not_empty_(&mutex_),
-        capacity_(capacity) {
-  }
+        capacity_(capacity) {}
 
   void push(const T& t) {
     MutexLock lock(&mutex_);

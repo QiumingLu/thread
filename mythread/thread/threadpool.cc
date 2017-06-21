@@ -12,11 +12,7 @@
 namespace mythread {
 
 ThreadPool::ThreadPool(int size)
-    : mutex_(),
-      cond_(&mutex_),
-      started_(false),
-      size_(size) {
-}
+    : mutex_(), cond_(&mutex_), started_(false), size_(size) {}
 
 ThreadPool::~ThreadPool() {
   if (started_) {
@@ -29,7 +25,7 @@ void ThreadPool::Start() {
   assert(size_ > 0);
   assert(threads_.empty());
   started_ = true;
-  for (size_t i= 0; i < static_cast<size_t>(size_); ++i) {
+  for (size_t i = 0; i < static_cast<size_t>(size_); ++i) {
     threads_.push_back(new Thread(&ThreadPool::ThreadFunc, this));
     threads_[i]->Start();
   }

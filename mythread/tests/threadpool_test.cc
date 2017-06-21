@@ -1,12 +1,10 @@
 #include "mythread/threadpool.h"
-#include "mythread/countdownlatch.h"
 #include <stdio.h>
+#include "mythread/countdownlatch.h"
 
 namespace mythread {
 
-void Print(void* obj) {
-  printf("%p, hello word!\n", obj);
-}
+void Print(void* obj) { printf("%p, hello word!\n", obj); }
 
 void DoCountDown(void* obj) {
   CountDownLatch* latch = reinterpret_cast<CountDownLatch*>(obj);
@@ -31,4 +29,3 @@ int main() {
   mythread::Test(4);
   return 0;
 }
-

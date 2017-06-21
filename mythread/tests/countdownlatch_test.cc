@@ -2,15 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <thread>
-#include <string>
 #include <stdio.h>
 #include <unistd.h>
+#include <string>
+#include <thread>
 
 #include "mythread/countdownlatch.h"
 
 static int counter = 0;
-static int number  = 2;
+static int number = 2;
 static mirants::CountDownLatch controller(number);
 
 void Arrive() {
@@ -19,8 +19,8 @@ void Arrive() {
 }
 
 void Run() {
-  printf("VideoConference: Initialization: %d participants.\n", 
-      controller.GetCount());
+  printf("VideoConference: Initialization: %d participants.\n",
+         controller.GetCount());
   controller.Wait();
   printf("VideoConference: All the participants have come.\n");
   printf("VideoConference: Let's start ...\n");

@@ -7,18 +7,12 @@
 
 namespace mythread {
 
-void ThreadFunc(void*) {
-  printf("hello word!\n");
-}
+void ThreadFunc(void*) { printf("hello word!\n"); }
 
 class Foo {
  public:
-  static void MemberFunc(void* obj) {
-    printf("%p\n", obj);
-  }
+  static void MemberFunc(void* obj) { printf("%p\n", obj); }
 };
-
-
 
 void ThreadTest() {
   Thread t1(&ThreadFunc, NULL);

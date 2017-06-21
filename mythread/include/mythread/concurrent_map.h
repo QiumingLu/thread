@@ -17,7 +17,7 @@ static const int kNumShards = 1 << kNumShardBits;
 template <typename K, typename V>
 class HashMap {
  public:
-  HashMap() : mu_() { }
+  HashMap() : mu_() {}
 
   void insert(const K& key, const V& value) {
     MutexLock lock(&mu_);
@@ -46,7 +46,7 @@ class HashMap {
 template <typename K, typename V>
 class ConcurrentMap {
  public:
-  ConcurrentMap() { }
+  ConcurrentMap() {}
 
   void insert(const K& key, const V& value) {
     const size_t h = Hash(key);
@@ -72,9 +72,7 @@ class ConcurrentMap {
     return h(key);
   }
 
-  static inline size_t Shard(size_t h) {
-    return (h & (kNumShards - 1));
-  }
+  static inline size_t Shard(size_t h) { return (h & (kNumShards - 1)); }
 
   HashMap<K, V> shard_[kNumShards];
 

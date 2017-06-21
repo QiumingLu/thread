@@ -7,7 +7,7 @@ CXXFLAGS+=-g
 CXXFLAGS+=-O2 
 CXXFLAGS+= -Wno-sign-conversion -Wconversion -Wall \
            -Wno-unused-parameter -Woverloaded-virtual -Wextra \
-	   -Wpointer-arith -Wshadow
+	       -Wpointer-arith -Wshadow
 
 LDFLAGS=-lpthread
 

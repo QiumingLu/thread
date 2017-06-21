@@ -12,10 +12,7 @@ namespace mythread {
 class CountDownLatch {
  public:
   explicit CountDownLatch(int count)
-      : mutex_(),
-        cond_(&mutex_),
-        count_(count) {
-  }
+      : mutex_(), cond_(&mutex_), count_(count) {}
 
   void Wait() {
     MutexLock lock(&mutex_);

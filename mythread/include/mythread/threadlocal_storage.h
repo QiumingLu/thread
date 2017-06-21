@@ -9,15 +9,13 @@
 
 namespace mythread {
 
-template<typename T>
+template <typename T>
 class ThreadLocalStorage {
  public:
   ThreadLocalStorage() {
     pthread_key_create(&key_, &ThreadLocalStorage::Deleter);
   }
-  ~ThreadLocalStorage() {
-    pthread_key_delete(key_);
-  }
+  ~ThreadLocalStorage() { pthread_key_delete(key_); }
 
   T* Get() {
     T* result = reinterpret_cast<T*>(pthread_getspecific(key_));
@@ -29,9 +27,7 @@ class ThreadLocalStorage {
   }
 
  private:
-  static void Deleter(void* value) {
-    delete static_cast<T*>(value);
-  }
+  static void Deleter(void* value) { delete static_cast<T*>(value); }
   pthread_key_t key_;
 
   // No copying allowed

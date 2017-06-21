@@ -3,9 +3,9 @@
 // found in the LICENSE file.
 
 #include "mythread/threadlocal_storage.h"
-#include "mythread/thread.h"
-#include <string>
 #include <stdio.h>
+#include <string>
+#include "mythread/thread.h"
 
 namespace mythread {
 
@@ -22,12 +22,8 @@ ThreadLocalStorage<ThreadLocalStorageTest> obj1;
 ThreadLocalStorage<ThreadLocalStorageTest> obj2;
 
 void Test() {
-  printf("obj1 %p name=%s\n",
-         obj1.Get(),
-         obj1.Get()->name().c_str());
-  printf("obj2 %p name=%s\n",
-         obj2.Get(),
-         obj2.Get()->name().c_str());
+  printf("obj1 %p name=%s\n", obj1.Get(), obj1.Get()->name().c_str());
+  printf("obj2 %p name=%s\n", obj2.Get(), obj2.Get()->name().c_str());
 }
 
 void ThreadFunc(void*) {

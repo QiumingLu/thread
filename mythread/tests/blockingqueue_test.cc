@@ -3,19 +3,17 @@
 // found in the LICENSE file.
 
 #include "mythread/blockingqueue.h"
+#include <stdio.h>
+#include <string>
 #include "mythread/countdownlatch.h"
 #include "mythread/thread.h"
-#include <string>
-#include <stdio.h>
 
 namespace mythread {
 
 class BlockingQueueTest {
  public:
   BlockingQueueTest(int thread_size)
-       : thread_size_(thread_size),
-         latch_(thread_size) {
-  }
+      : thread_size_(thread_size), latch_(thread_size) {}
 
   void Start() {
     for (int i = 0; i < thread_size_; ++i) {
@@ -23,7 +21,7 @@ class BlockingQueueTest {
     }
 
     for (size_t i = 0; i < threads_.size(); ++i) {
-       threads_[i]->Start();
+      threads_[i]->Start();
     }
   }
 
@@ -70,7 +68,6 @@ class BlockingQueueTest {
   CountDownLatch latch_;
   std::vector<Thread*> threads_;
 };
-
 
 }  // namespace mythread
 

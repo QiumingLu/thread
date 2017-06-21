@@ -18,7 +18,7 @@ class Mutex {
 
   void Lock();
   void Unlock();
-  void AssertHeld() { }
+  void AssertHeld() {}
 
  private:
   friend class Condition;

@@ -16,12 +16,11 @@ namespace mythread {
 class BoundedBlockingQueueTest {
  public:
   BoundedBlockingQueueTest(int threads_size)
-      : queue_(18),
-        latch_(threads_size),
-        threads_size_(threads_size) {
+      : queue_(18), latch_(threads_size), threads_size_(threads_size) {
     assert(threads_size_ > 0);
     for (size_t i = 0; i < static_cast<size_t>(threads_size_); ++i) {
-      threads_.push_back(new Thread(&BoundedBlockingQueueTest::ThreadFunc, this));
+      threads_.push_back(
+          new Thread(&BoundedBlockingQueueTest::ThreadFunc, this));
       threads_[i]->Start();
     }
   }
@@ -48,7 +47,8 @@ class BoundedBlockingQueueTest {
 
  private:
   static void ThreadFunc(void* obj) {
-    BoundedBlockingQueueTest* t = reinterpret_cast<BoundedBlockingQueueTest*>(obj);
+    BoundedBlockingQueueTest* t =
+        reinterpret_cast<BoundedBlockingQueueTest*>(obj);
     t->RunFunc();
   }
 

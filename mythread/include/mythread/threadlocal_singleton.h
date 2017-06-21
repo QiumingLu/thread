@@ -10,7 +10,7 @@
 
 namespace mythread {
 
-template<typename T>
+template <typename T>
 class ThreadLocalSingleton {
  public:
   static T* get() {
@@ -22,19 +22,13 @@ class ThreadLocalSingleton {
   }
 
  private:
-  static void Deleter(void* value) {
-    delete reinterpret_cast<T*>(value);
-  }
+  static void Deleter(void* value) { delete reinterpret_cast<T*>(value); }
 
   class Helper {
    public:
-    Helper() {
-      pthread_key_create(&key_, &ThreadLocalSingleton::Deleter);
-    }
+    Helper() { pthread_key_create(&key_, &ThreadLocalSingleton::Deleter); }
 
-    ~Helper() {
-      pthread_key_delete(key_);
-    }
+    ~Helper() { pthread_key_delete(key_); }
 
     void set(T* value) {
       assert(pthread_getspecific(key_) == NULL);
@@ -48,10 +42,10 @@ class ThreadLocalSingleton {
   static Helper helper_;
 };
 
-template<typename T>
+template <typename T>
 __thread T* ThreadLocalSingleton<T>::value_ = NULL;
 
-template<typename T>
+template <typename T>
 typename ThreadLocalSingleton<T>::Helper ThreadLocalSingleton<T>::helper_;
 
 }  // namespace mythread

@@ -2,22 +2,21 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "mythread/threadlocal_singleton.h"
 #include "mythread/thread.h"
+#include "mythread/threadlocal_singleton.h"
 
-#include <string>
 #include <stdio.h>
+#include <string>
 
 namespace mythread {
 
 class Test {
  public:
-  Test() {
-  }
+  Test() {}
 
   const std::string& name() const { return name_; }
   void set_name(const std::string& n) { name_ = n; }
-  
+
  private:
   std::string name_;
 };

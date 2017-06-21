@@ -11,10 +11,10 @@
 
 namespace mythread {
 
-template<typename T>
+template <typename T>
 class BlockingQueue {
  public:
-  BlockingQueue() : mutex_(), not_empty_(&mutex_) { }
+  BlockingQueue() : mutex_(), not_empty_(&mutex_) {}
 
   void push(const T& t) {
     MutexLock lock(&mutex_);

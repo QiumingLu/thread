@@ -7,8 +7,8 @@
 #include <assert.h>
 #include <errno.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 namespace mythread {
 
@@ -25,12 +25,11 @@ void* StartThread(void* arg) {
 }
 
 Thread::Thread(void (*function)(void* arg), void* arg)
-     : started_(false),
-       joined_(false),
-       thread_(0),
-       function_(function),
-       arg_(arg) {
-}
+    : started_(false),
+      joined_(false),
+      thread_(0),
+      function_(function),
+      arg_(arg) {}
 
 Thread::~Thread() {
   if (started_ && !joined_) {

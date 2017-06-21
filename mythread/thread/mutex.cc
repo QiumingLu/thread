@@ -4,8 +4,8 @@
 
 #include "mythread/mutex.h"
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 namespace mythread {
@@ -33,9 +33,8 @@ void Mutex::Unlock() {
   PthreadCall("pthread_mutex_unlock", pthread_mutex_unlock(&mutex_));
 }
 
-Condition::Condition(Mutex* mutex)
-    : mutex_(mutex) {
-    PthreadCall("pthread_cond_init", pthread_cond_init(&cond_, NULL));
+Condition::Condition(Mutex* mutex) : mutex_(mutex) {
+  PthreadCall("pthread_cond_init", pthread_cond_init(&cond_, NULL));
 }
 
 Condition::~Condition() {
@@ -43,8 +42,7 @@ Condition::~Condition() {
 }
 
 void Condition::Wait() {
-  PthreadCall("pthread_cond_wait",
-              pthread_cond_wait(&cond_, &mutex_->mutex_));
+  PthreadCall("pthread_cond_wait", pthread_cond_wait(&cond_, &mutex_->mutex_));
 }
 
 void Condition::Signal() {
